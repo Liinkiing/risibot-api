@@ -14,11 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class RisificController extends Controller
 {
 
-    private $client;
+    protected $client;
 
     public function __construct(RisificClient $client)
     {
-
         $this->client = $client;
     }
 
@@ -29,7 +28,7 @@ class RisificController extends Controller
     public function randomAction(): JsonResponse
     {
         return $this->json(
-            $this->client->getRandomPost()
+            $this->client->getRandomRisific()
         );
     }
 
@@ -40,7 +39,7 @@ class RisificController extends Controller
     public function allAction(): JsonResponse
     {
         return $this->json(
-            $this->client->getPosts()
+            $this->client->getRisifics()
         );
     }
 
