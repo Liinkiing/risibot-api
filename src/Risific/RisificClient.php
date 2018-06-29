@@ -29,9 +29,14 @@ class RisificClient
             $posts = [];
             $crawler = $this->client->request("GET", self::BASE_URL);
             $crawler->filter('#lcp_instance_0 li a')->each(function (Crawler $node) use (&$posts) {
+                $url = $node->attr('href');
+                $crawler = $this->client->request("GET", $url);
+                $images = $crawler->filter('#content article img:first-of-type');
+                $thumbnail = $images->count() > 0 ? $images->first()->attr('src') : 'https://i2.wp.com/image.noelshack.com/minis/2016/51/1482448857-celestinrisitas.png?resize=68%2C51&ssl=1';
                 $posts[] = [
                     'title' => $node->text(),
-                    'url' => $node->attr('href')
+                    'thumbnail' => $thumbnail,
+                    'url' => $url
                 ];
             });
             $this->cache->set(self::CACHE_KEY, $posts, self::CACHE_TTL);
