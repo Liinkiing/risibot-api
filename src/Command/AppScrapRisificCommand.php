@@ -45,18 +45,17 @@ class AppScrapRisificCommand extends Command
 
         $crawler = $this->client->request("GET", self::BASE_URL);
         $fics = $crawler->filter('#lcp_instance_0 li a');
-        $progress = $io->createProgressBar($fics->count());
-        $progress->display();
+        $io->progressStart($fics->count());
 
-        $fics->each(function (Crawler $node) use ($io, $progress) {
+        $fics->each(function (Crawler $node) use ($io) {
             $url = $node->attr('href');
-            $crawler = $this->client->request("GET", $url);
-            $images = $crawler->filter('#content article img:first-of-type');
-            $thumbnail = $images->count() > 0 ? $images->first()->attr('src') : 'https://i2.wp.com/image.noelshack.com/minis/2016/51/1482448857-celestinrisitas.png?resize=68%2C51&ssl=1';
             $title = $node->text();
-            $io->text("Getting $title ($url)...");
+            $io->text("Getting <info>$title</info> (<comment>$url</comment>)...");
             if (!$this->repository->findOneBy(['url' => $url])) {
-                $io->text("$title does not exist in database. Adding it...");
+                $io->text("<info>$title</info> does not exist in database. Adding it...");
+                $crawler = $this->client->request("GET", $url);
+                $images = $crawler->filter('#content article img:first-of-type');
+                $thumbnail = $images->count() > 0 ? $images->first()->attr('src') : 'https://i2.wp.com/image.noelshack.com/minis/2016/51/1482448857-celestinrisitas.png?resize=68%2C51&ssl=1';
                 $fic = (new Risific())
                     ->setThumbnail($thumbnail)
                     ->setTitle($title)
@@ -64,12 +63,13 @@ class AppScrapRisificCommand extends Command
                 $this->manager->persist($fic);
                 $io->success("Successfully persisted $title !");
             } else {
-                $io->text("$title already exist in database. Skipping it...");
+                $io->text("<info>$title</info> already exist in database. Skipping it...");
             }
-            $progress->advance();
+            $io->progressAdvance();
+            $io->newLine();
         });
         $this->manager->flush();
-        $progress->finish();
+        $io->progressFinish();
 
         $io->success("Successfully get recent fictions ! Now you can read some good fictions made by kheys !");
 
