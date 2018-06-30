@@ -10,6 +10,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Risipic
 {
+
+    public const PER_PAGE = 50;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -18,17 +21,10 @@ class Risipic
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Groups({"api"})
      */
     private $url;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="risipics", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
-     * @Groups({"api"})
-     */
-    private $category;
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -37,10 +33,10 @@ class Risipic
     private $tags;
 
     /**
-     * @ORM\Column(type="string", length=6)
+     * @ORM\Column(type="integer")
      * @Groups({"api"})
      */
-    private $extension;
+    private $views = 0;
 
     public function getId()
     {
@@ -59,18 +55,6 @@ class Risipic
         return $this;
     }
 
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     public function getTags(): ?array
     {
         return $this->tags;
@@ -83,15 +67,16 @@ class Risipic
         return $this;
     }
 
-    public function getExtension(): ?string
+    public function getViews(): ?int
     {
-        return $this->extension;
+        return $this->views;
     }
 
-    public function setExtension(string $extension): self
+    public function setViews(int $views): self
     {
-        $this->extension = $extension;
+        $this->views = $views;
 
         return $this;
     }
+
 }

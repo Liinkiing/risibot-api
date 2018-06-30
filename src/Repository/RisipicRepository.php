@@ -22,15 +22,11 @@ class RisipicRepository extends ServiceEntityRepository
     /**
      * @return Risipic[]|null
      */
-    public function findBySearchParams(array $parameters)
+    public function findBySearchParams(array $parameters): ?array
     {
-        $qb = $this->createQueryBuilder('r')
-            ->andWhere('r.tags LIKE :search')
-            ->setParameter('search', '%' . $parameters['q'] . '%');
+        $qb = $this->createQueryBuilder('r');
 
-        $searchTerms = array_map(function ($term) {
-            return trim($term);
-        }, explode(" ", $parameters['q']));
+        $searchTerms = array_map('trim', explode(' ', $parameters['q']));
 
         foreach ($searchTerms as $term) {
             $qb->orWhere($qb->expr()->like('r.tags', ':tag'))
@@ -38,22 +34,19 @@ class RisipicRepository extends ServiceEntityRepository
         }
 
         if (isset($parameters['tags'])) {
-            $tags = array_map(function ($tag) {
-                return trim($tag);
-            }, explode(",", $parameters['tags']));
+            $tags = array_map('trim', explode(',', $parameters['tags']));
             foreach ($tags as $tag) {
-                $qb->andWhere($qb->expr()->like('r.tags', ':tag'))
+                $qb->orWhere($qb->expr()->like('r.tags', ':tag'))
                     ->setParameter('tag', '%' . $tag . '%');
             }
         }
 
-        if (isset($parameters['category'])) {
-            $qb->innerJoin('r.category', 'category')
-                ->andWhere('category.name = :cname')
-                ->setParameter('cname', $parameters['category']);
-        }
+        $qb->addOrderBy('r.views', 'DESC');
 
-        return $qb->getQuery()->getResult();
+        return $qb
+            ->setMaxResults(Risipic::PER_PAGE)
+            ->getQuery()
+            ->getResult();
 
     }
 }

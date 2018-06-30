@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\RisificRepository;
-use App\Risibank\RisificClient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;

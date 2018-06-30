@@ -10,6 +10,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Risific
 {
+
+    public const PER_PAGE = 50;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")

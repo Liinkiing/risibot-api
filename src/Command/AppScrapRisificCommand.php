@@ -41,9 +41,9 @@ class AppScrapRisificCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $io->text('Scrapping started...');
+        $io->text('Scrapping of <info>' . self::BASE_URL . '</info> started...');
 
-        $crawler = $this->client->request("GET", self::BASE_URL);
+        $crawler = $this->client->request('GET', self::BASE_URL);
         $fics = $crawler->filter('#lcp_instance_0 li a');
         $io->progressStart($fics->count());
 
@@ -53,7 +53,7 @@ class AppScrapRisificCommand extends Command
             $io->text("Getting <info>$title</info> (<comment>$url</comment>)...");
             if (!$this->repository->findOneBy(['url' => $url])) {
                 $io->text("<info>$title</info> does not exist in database. Adding it...");
-                $crawler = $this->client->request("GET", $url);
+                $crawler = $this->client->request('GET', $url);
                 $images = $crawler->filter('#content article img:first-of-type');
                 $thumbnail = $images->count() > 0 ? $images->first()->attr('src') : 'https://i2.wp.com/image.noelshack.com/minis/2016/51/1482448857-celestinrisitas.png?resize=68%2C51&ssl=1';
                 $fic = (new Risific())
@@ -71,7 +71,7 @@ class AppScrapRisificCommand extends Command
         });
         $io->progressFinish();
 
-        $io->success("Successfully get recent fictions ! Now you can read some good fictions made by kheys !");
+        $io->success('Successfully get recent fictions ! Now you can read some good fictions made by kheys !');
 
     }
 }

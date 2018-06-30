@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Risibank\RisibankClient;
+use App\Repository\RisipicRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,13 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class RisibankController extends ApiController
 {
 
-    const DEFAULT_SEARCH_TERM = 'celestin';
+    const DEFAULT_SEARCH_TERM = 'risitas';
 
-    protected $client;
+    private $repository;
 
-    public function __construct(RisibankClient $client)
+    public function __construct(RisipicRepository $repository)
     {
-        $this->client = $client;
+        $this->repository = $repository;
     }
 
     /**
@@ -30,7 +30,7 @@ class RisibankController extends ApiController
         $default = ['q' => $request->get('q') ?? self::DEFAULT_SEARCH_TERM];
 
         return $this->json(
-            $this->client->searchPicturesByName(array_merge($default, $request->query->all()))
+            $this->repository->findBySearchParams(array_merge($default, $request->query->all()))
         );
     }
 
