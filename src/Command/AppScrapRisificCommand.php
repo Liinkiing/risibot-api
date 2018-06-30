@@ -61,6 +61,7 @@ class AppScrapRisificCommand extends Command
                     ->setTitle($title)
                     ->setUrl($url);
                 $this->manager->persist($fic);
+                $this->manager->flush();
                 $io->success("Successfully persisted $title !");
             } else {
                 $io->text("<info>$title</info> already exist in database. Skipping it...");
@@ -68,7 +69,6 @@ class AppScrapRisificCommand extends Command
             $io->progressAdvance();
             $io->newLine();
         });
-        $this->manager->flush();
         $io->progressFinish();
 
         $io->success("Successfully get recent fictions ! Now you can read some good fictions made by kheys !");
