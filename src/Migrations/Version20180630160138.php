@@ -27,7 +27,7 @@ final class Version20180630160138 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE category (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE category (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(191) NOT NULL COLLATE utf8mb4_unicode_ci, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('DROP INDEX UNIQ_549EA24F47645AE ON risipic');
         $this->addSql('ALTER TABLE risipic ADD category_id INT NOT NULL, ADD extension VARCHAR(6) NOT NULL COLLATE utf8mb4_unicode_ci');
         $this->addSql('ALTER TABLE risipic ADD CONSTRAINT FK_549EA2412469DE2 FOREIGN KEY (category_id) REFERENCES category (id)');

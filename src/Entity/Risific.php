@@ -21,19 +21,19 @@ class Risific
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=191)
      * @Groups({"api"})
      */
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=191, nullable=true)
      * @Groups({"api"})
      */
     private $thumbnail;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=191)
      * @Groups({"api"})
      */
     private $url;
