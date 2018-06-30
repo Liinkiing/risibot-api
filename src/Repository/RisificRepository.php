@@ -26,7 +26,7 @@ class RisificRepository extends ServiceEntityRepository
             ->orderBy('rand')
             ->setMaxResults(1)
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 
 }
