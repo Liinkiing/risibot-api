@@ -2,23 +2,23 @@
 
 namespace App\Controller;
 
-use App\Risific\RisificClient;
+use App\Repository\RisificRepository;
+use App\Risibank\RisificClient;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/api/risific")
  */
-class RisificController extends Controller
+class RisificController extends ApiController
 {
 
-    protected $client;
+    protected $repository;
 
-    public function __construct(RisificClient $client)
+    public function __construct(RisificRepository $repository)
     {
-        $this->client = $client;
+        $this->repository = $repository;
     }
 
     /**
@@ -28,7 +28,7 @@ class RisificController extends Controller
     public function randomAction(): JsonResponse
     {
         return $this->json(
-            $this->client->getRandomRisific()
+            $this->repository->findOneRandom()
         );
     }
 
@@ -39,7 +39,7 @@ class RisificController extends Controller
     public function allAction(): JsonResponse
     {
         return $this->json(
-            $this->client->getRisifics()
+            $this->repository->findAll()
         );
     }
 

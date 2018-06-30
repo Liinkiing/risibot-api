@@ -19,32 +19,14 @@ class RisificRepository extends ServiceEntityRepository
         parent::__construct($registry, Risific::class);
     }
 
-//    /**
-//     * @return Risific[] Returns an array of Risific objects
-//     */
-    /*
-    public function findByExampleField($value)
+    public function findOneRandom(): ?Risific
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
+            ->addSelect('RAND() as HIDDEN rand')
+            ->orderBy('rand')
+            ->setMaxResults(1)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getSingleResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Risific
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

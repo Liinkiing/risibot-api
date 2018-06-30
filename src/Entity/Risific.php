@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RisificRepository")
@@ -18,16 +19,19 @@ class Risific
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"api"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"api"})
      */
     private $thumbnail;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"api"})
      */
     private $url;
 
