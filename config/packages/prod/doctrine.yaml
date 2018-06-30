@@ -1,6 +1,4 @@
 doctrine:
-    dbal:
-        driver: 'pgsql'
     orm:
         metadata_cache_driver:
             type: service
