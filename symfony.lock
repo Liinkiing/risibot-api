@@ -71,6 +71,9 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "league/html-to-markdown": {
+        "version": "4.7.0"
+    },
     "nikic/php-parser": {
         "version": "v4.0.2"
     },

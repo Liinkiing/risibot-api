@@ -3,6 +3,7 @@
 /.env
 /.idea/
 /public/bundles/
+/public/risifics/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
